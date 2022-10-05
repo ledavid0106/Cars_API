@@ -4,10 +4,18 @@ from .serializers import CarSerializer
 from .models import Car
 # Create your views here.
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def cars_list(request):
 
-    cars = Car.objects.all()
-    serializer = CarSerializer(cars, many=True)    
 
-    return Response(serializer.data)
+    if request.method == 'GET':
+        cars = Car.objects.all()
+        serializer = CarSerializer(cars, many=True)    
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = CarSerializer(data=request.data)
+        if serializer.is_valid() == True:
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
