@@ -16,6 +16,6 @@ def cars_list(request):
         serializer = CarSerializer(data=request.data)
         if serializer.is_valid() == True:
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status = 201)
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status = 400)
