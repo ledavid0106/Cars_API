@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework. response import Response
+from rest_framework import status
 from .serializers import CarSerializer
 from .models import Car
 # Create your views here.
@@ -16,6 +17,6 @@ def cars_list(request):
         serializer = CarSerializer(data=request.data)
         if serializer.is_valid() == True:
             serializer.save()
-            return Response(serializer.data, status = 201)
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status = 400)
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
