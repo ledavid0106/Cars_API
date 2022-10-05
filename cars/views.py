@@ -21,11 +21,19 @@ def cars_list(request):
         serializer.save()
         return Response(serializer.data, status = status.HTTP_201_CREATED)
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def car_detail(request, pk):
     car = get_object_or_404(Car, pk=pk)
-    serializer = CarSerializer(car)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        serializer = CarSerializer(car)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        # car = get_object_or_404(Car, pk=pk)
+        #for updating
+        serializer = CarSerializer(car, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
     # try:
     #     #car = Car.objects.get(pk=pk)
     #     serializer = CarSerializer(car)
