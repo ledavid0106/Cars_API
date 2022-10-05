@@ -27,6 +27,7 @@ def car_detail(request, pk):
     if request.method == 'GET':
         serializer = CarSerializer(car)
         return Response(serializer.data)
+        
     elif request.method == 'PUT':
         # car = get_object_or_404(Car, pk=pk)
         #for updating
